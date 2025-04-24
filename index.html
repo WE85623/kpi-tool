@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KPI 達成率計算 </title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background: #f9f9f9;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 1.8em;
+      text-align: center;
+      margin-bottom: 0.5em;
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 2em;
+      color: #34495e;
+      font-size: 1.4em;
+      border-left: 6px solid #3498db;
+      padding-left: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2em;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+    input[type=number] {
+      width: 90px;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .result {
+      font-weight: bold;
+    }
+    .pass {
+      color: green;
+    }
+    .fail {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>KPI 即時計算工具 </h1>
+  <p style="text-align:center;">輸入「實際數」與「預計數」，立即計算 KPI 達成率。</p>
+  <div id="tables"></div>
+
+  <script>
+    const kpiData = {
+  "採購部": [
+    {
+      "name": "價格比價/議價率 ≥ 80%",
+      "formula": "(A/B)*100",
+      "threshold": 80
+    },
+    {
+      "name": "採購單錯誤率 ≤ 1%",
+      "formula": "(A/B)*100",
+      "threshold": 1,
+      "reverse": true
+    },
+    {
+      "name": "交期掌握準確率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    }
+  ],
+  "營業處": [
+    {
+      "name": "報價轉單率 ≥ 40%",
+      "formula": "(A/B)*100",
+      "threshold": 40
+    },
+    {
+      "name": "商品銷退率 ≤ 1%",
+      "formula": "(A/B)*100",
+      "threshold": 1,
+      "reverse": true
+    },
+    {
+      "name": "新客戶追蹤 ≥ 5 家",
+      "formula": "(A/B)*100",
+      "threshold": 100
+    },
+    {
+      "name": "舊客戶回訪率 ≥ 80%",
+      "formula": "(A/B)*100",
+      "threshold": 80
+    },
+    {
+      "name": "業績達成率 ≥ 100%",
+      "formula": "(A/B)*100",
+      "threshold": 100
+    }
+  ],
+  "資材部": [
+    {
+      "name": "庫存帳正確率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    },
+    {
+      "name": "及時供料率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95,
+      "reverse": true
+    },
+    {
+      "name": "生產計劃達成率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    }
+  ],
+  "生產廠": [
+    {
+      "name": "每日生產達成率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    },
+    {
+      "name": "製程異常回報率 100%",
+      "formula": "(A/B)*100",
+      "threshold": 100
+    },
+    {
+      "name": "報廢率 ≤ 2%",
+      "formula": "(A/B)*100",
+      "threshold": 2,
+      "reverse": true
+    }
+  ],
+  "品保部": [
+    {
+      "name": "異常處理完成率 ≥ 90%",
+      "formula": "(A/B)*100",
+      "threshold": 90
+    },
+    {
+      "name": "抽檢覆蓋率 ≥ 80%",
+      "formula": "(A/B)*100",
+      "threshold": 80
+    },
+    {
+      "name": "供應商品質異常率 ≤ 2%",
+      "formula": "(A/B)*100",
+      "threshold": 2,
+      "reverse": true
+    }
+  ],
+  "財管部": [
+    {
+      "name": "教育訓練完成率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    },
+    {
+      "name": "設備維護回報完成率 ≥ 98%",
+      "formula": "(A/B)*100",
+      "threshold": 98
+    },
+    {
+      "name": "耗材補充即時率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    }
+  ],
+  "工程處": [
+    {
+      "name": "進度回報準確率 ≥ 95%",
+      "formula": "(A/B)*100",
+      "threshold": 95
+    },
+    {
+      "name": "工地巡檢完成率 100%",
+      "formula": "(A/B)*100",
+      "threshold": 100
+    },
+    {
+      "name": "準時完工率 ≥ 90%",
+      "formula": "(A/B)*100",
+      "threshold": 90
+    },
+    {
+      "name": "丈量錯誤率 ≤ 1%",
+      "formula": "(A/B)*100",
+      "threshold": 1,
+      "reverse": true
+    },
+    {
+      "name": "圖面核對完成率 100%",
+      "formula": "(A/B)*100",
+      "threshold": 100
+    }
+  ]
+};
+
+    const container = document.getElementById("tables");
+    for (let dept in kpiData) {
+      const section = document.createElement("div");
+      section.innerHTML += `<h2>${dept}</h2>`;
+      let html = `<table><thead><tr><th>KPI 指標</th><th>實際數</th><th>預計數</th><th>結果</th></tr></thead><tbody>`;
+      kpiData[dept].forEach((kpi, index) => {
+        const id = `${dept}-${index}`;
+        html += `<tr>
+          <td>${kpi.name}</td>
+          <td><input type="number" id="${id}-a" oninput="calculate('${id}', ${kpi.threshold}, ${!!kpi.reverse})"></td>
+          <td><input type="number" id="${id}-b" oninput="calculate('${id}', ${kpi.threshold}, ${!!kpi.reverse})"></td>
+          <td id="${id}-result" class="result"></td>
+        </tr>`;
+      });
+      html += "</tbody></table>";
+      section.innerHTML += html;
+      container.appendChild(section);
+    }
+
+    function calculate(id, threshold, reverse=false) {
+      const a = parseFloat(document.getElementById(`${id}-a`).value);
+      const b = parseFloat(document.getElementById(`${id}-b`).value);
+      const resultCell = document.getElementById(`${id}-result`);
+      if (!isNaN(a) && !isNaN(b) && b !== 0) {
+        const value = (a / b) * 100;
+        resultCell.innerText = value.toFixed(1) + "%";
+        resultCell.className = value >= threshold ^ reverse ? "result pass" : "result fail";
+      } else {
+        resultCell.innerText = "";
+        resultCell.className = "result";
+      }
+    }
+  </script>
+</body>
+</html>
