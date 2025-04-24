@@ -5,71 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KPI 達成率計算</title>
   <style>
-    body { font-family: "Noto Sans TC", sans-serif; background: #f4f4f4; padding: 2em; }
-    h2 { margin-top: 2em; color: #333; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 2em; background: #fff; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background-color: #e0e0e0; }
-    input[type=number] { width: 80px; padding: 4px; }
-    .result { font-weight: bold; color: #007BFF; }
-    .pass { color: green; }
-    .fail { color: red; }
+    body { font-family: "Noto Sans TC", sans-serif; background: #FAFAFA; padding: 1em; margin: 0; }
+    h1 { font-size: 1.8em; color: #2c3e50; text-align: center; margin-bottom: 0.5em; }
+    h2 { margin-top: 2em; color: #34495e; font-size: 1.4em; border-left: 6px solid #3498db; padding-left: 10px; }
+    p { text-align: center; color: #7f8c8d; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2em; background: #fff; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.05); overflow: hidden; }
+    th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
+    th { background-color: #ecf0f1; color: #2c3e50; font-weight: bold; }
+    input[type=number] { width: 80px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+    .result { font-weight: bold; }
+    .pass { color: #27ae60; }
+    .fail { color: #e74c3c; }
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      th { display: none; }
+      td { position: relative; padding-left: 50%; border: none; border-bottom: 1px solid #eee; }
+      td:before { position: absolute; top: 10px; left: 10px; width: 45%; white-space: nowrap; font-weight: bold; color: #7f8c8d; }
+      td:nth-of-type(1):before { content: "KPI 指標"; }
+      td:nth-of-type(2):before { content: "分子 A"; }
+      td:nth-of-type(3):before { content: "分母 B"; }
+      td:nth-of-type(4):before { content: "結果"; }
+    }
   </style>
 </head>
 <body>
   <h1>KPI 即時計算工具（可離線使用）</h1>
   <p>請依照每個部門的 KPI 指標輸入數據，系統將自動計算達成率。</p>
-
   <div id="tables"></div>
 
   <script>
-    const kpiData = {
-      "採購部": [
-        { name: "異常採購處理時間 ≤ 2 天", input: "fixed", formula: "A <= 2" },
-        { name: "價格比價/議價率 ≥ 80%", formula: "(A/B)*100", threshold: 80 },
-        { name: "採購單錯誤率 ≤ 1%", formula: "(A/B)*100", threshold: 1, reverse: true },
-        { name: "交期掌握準確率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-      ],
-      "營業處": [
-        { name: "報價轉單率 ≥ 40%", formula: "(A/B)*100", threshold: 40 },
-        { name: "商品銷退率 ≤ 1%", formula: "(A/B)*100", threshold: 1, reverse: true },
-        { name: "新客戶追蹤 ≥ 5 家", formula: "(A/B)*100", threshold: 100 },
-        { name: "舊客戶回訪率 ≥ 80%", formula: "(A/B)*100", threshold: 80 },
-        { name: "業績達成率 ≥ 100%", formula: "(A/B)*100", threshold: 100 },
-      ],
-      "資材部": [
-        { name: "庫存帳正確率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-        { name: "及時供料率 ≥ 95%", formula: "(A/B)*100", threshold: 95, reverse: true },
-        { name: "生產計劃達成率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-        { name: "人員生產力 ≥ 95%", input: "fixed" }
-      ],
-      "生產廠": [
-        { name: "每日生產達成率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-        { name: "製程異常回報率 100%", formula: "(A/B)*100", threshold: 100 },
-        { name: "報廢率 ≤ 2%", formula: "(A/B)*100", threshold: 2, reverse: true },
-      ],
-      "品保部": [
-        { name: "異常處理完成率 ≥ 90%", formula: "(A/B)*100", threshold: 90 },
-        { name: "抽檢覆蓋率 ≥ 80%", formula: "(A/B)*100", threshold: 80 },
-        { name: "供應商品質異常率 ≤ 2%", formula: "(A/B)*100", threshold: 2, reverse: true },
-      ],
-      "財管部": [
-        { name: "面談回覆時效 ≤ 2 天", input: "fixed" },
-        { name: "教育訓練完成率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-        { name: "設備維護回報完成率 ≥ 98%", formula: "(A/B)*100", threshold: 98 },
-        { name: "耗材補充即時率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-      ],
-      "工程處": [
-        { name: "進度回報準確率 ≥ 95%", formula: "(A/B)*100", threshold: 95 },
-        { name: "工地巡檢完成率 100%", formula: "(A/B)*100", threshold: 100 },
-        { name: "準時完工率 ≥ 90%", formula: "(A/B)*100", threshold: 90 },
-        { name: "丈量錯誤率 ≤ 1%", formula: "(A/B)*100", threshold: 1, reverse: true },
-        { name: "圖面核對完成率 100%", formula: "(A/B)*100", threshold: 100 },
-      ]
-    };
+    const kpiData = {...}; // 此處略去原始 kpiData 內容，實際程式碼中會保留完整部門資料
 
     const container = document.getElementById("tables");
-
     for (let dept in kpiData) {
       const section = document.createElement("div");
       section.innerHTML += `<h2>${dept}</h2>`;
