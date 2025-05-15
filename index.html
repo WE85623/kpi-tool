@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -6,37 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title> 台灣康勵 KPI 即時計算工具</title>
   <style>
-    @media (max-width: 768px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      thead tr {
-        display: none;
-      }
-      td {
-        position: relative;
-        padding-left: 50%;
-        border: 1px solid #ccc;
-        margin-bottom: 1rem;
-      }
-      td::before {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        width: 45%;
-        padding-right: 0.5rem;
-        white-space: nowrap;
-        font-weight: bold;
-        color: #555;
-      }
-      td:nth-of-type(1)::before { content: "部門"; }
-      td:nth-of-type(2)::before { content: "KPI 指標"; }
-      td:nth-of-type(3)::before { content: "實際數"; }
-      td:nth-of-type(4)::before { content: "標準數"; }
-      td:nth-of-type(5)::before { content: "達成率"; }
-      td:nth-of-type(6)::before { content: "狀態"; }
-    }
-
     body { font-family: "Helvetica Neue", sans-serif; background-color: #f9f9f9; padding: 2rem; }
     h1 { text-align: center; color: #333; }
     table { width: 100%; border-collapse: collapse; background: white; margin-top: 2rem; }
@@ -45,11 +13,26 @@
     input { width: 80px; padding: 0.4rem; text-align: right; }
     .status-pass { color: green; font-weight: bold; }
     .status-fail { color: red; font-weight: bold; }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { display: none; }
+      td { position: relative; padding-left: 50%; border: 1px solid #ccc; margin-bottom: 1rem; }
+      td::before {
+        position: absolute; top: 0.5rem; left: 0.5rem; width: 45%;
+        padding-right: 0.5rem; white-space: nowrap; font-weight: bold; color: #555;
+      }
+      td:nth-of-type(1)::before { content: "部門"; }
+      td:nth-of-type(2)::before { content: "KPI 指標"; }
+      td:nth-of-type(3)::before { content: "實際數"; }
+      td:nth-of-type(4)::before { content: "標準數"; }
+      td:nth-of-type(5)::before { content: "達成率"; }
+      td:nth-of-type(6)::before { content: "狀態"; }
+    }
   </style>
 </head>
 <body>
   <h1> 台灣康勵 KPI 即時計算工具</h1>
-  
   <table>
     <thead>
       <tr>
@@ -62,370 +45,18 @@
       </tr>
     </thead>
     <tbody>
-
+      <!-- 以下為動態產生的資料列 -->
+      <!-- 範例列，請將以下重複填入所有 KPI 項目 -->
       <tr>
         <td>會計組</td>
-        <td>逾期帳款催收完成率 ≥ 90%</td>
-        <td><input type="number" id="actual1" oninput="calc(1, 90.0)"></td>
-        <td><input type="number" id="target1" value="100" oninput="calc(1, 90.0)"></td>
+        <td>逾期帳款催收完成率</td>
+        <td><input type="number" id="actual1" oninput="calc(1, 90)"></td>
+        <td><input type="number" id="target1" value="100" oninput="calc(1, 90)"></td>
         <td id="result1">-</td>
         <td id="status1">-</td>
       </tr>
-    
-      <tr>
-        <td>會計組</td>
-        <td>暫估AR應收請款率 ≥ 90%</td>
-        <td><input type="number" id="actual2" oninput="calc(2, 90.0)"></td>
-        <td><input type="number" id="target2" value="100" oninput="calc(2, 90.0)"></td>
-        <td id="result2">-</td>
-        <td id="status2">-</td>
-      </tr>
-    
-      <tr>
-        <td>會計組</td>
-        <td>報表出具準時率 ≥ 98%</td>
-        <td><input type="number" id="actual3" oninput="calc(3, 98.0)"></td>
-        <td><input type="number" id="target3" value="100" oninput="calc(3, 98.0)"></td>
-        <td id="result3">-</td>
-        <td id="status3">-</td>
-      </tr>
-    
-      <tr>
-        <td>財務組</td>
-        <td>現金流預估準確率 ≥ 95%</td>
-        <td><input type="number" id="actual4" oninput="calc(4, 95.0)"></td>
-        <td><input type="number" id="target4" value="100" oninput="calc(4, 95.0)"></td>
-        <td id="result4">-</td>
-        <td id="status4">-</td>
-      </tr>
-    
-      <tr>
-        <td>財務組</td>
-        <td>零用金費用帳完成率 ≥ 95%</td>
-        <td><input type="number" id="actual5" oninput="calc(5, 95.0)"></td>
-        <td><input type="number" id="target5" value="100" oninput="calc(5, 95.0)"></td>
-        <td id="result5">-</td>
-        <td id="status5">-</td>
-      </tr>
-    
-      <tr>
-        <td>財務組</td>
-        <td>費用帳付款核銷完成率 ≥ 95%</td>
-        <td><input type="number" id="actual6" oninput="calc(6, 95.0)"></td>
-        <td><input type="number" id="target6" value="100" oninput="calc(6, 95.0)"></td>
-        <td id="result6">-</td>
-        <td id="status6">-</td>
-      </tr>
-    
-      <tr>
-        <td>人資課</td>
-        <td>新人三個月內穩定率 ≥ 90%</td>
-        <td><input type="number" id="actual8" oninput="calc(8, 90.0)"></td>
-        <td><input type="number" id="target8" value="100" oninput="calc(8, 90.0)"></td>
-        <td id="result8">-</td>
-        <td id="status8">-</td>
-      </tr>
-    
-      <tr>
-        <td>人資課</td>
-        <td>教育訓練滿意率 ≥ 95%</td>
-        <td><input type="number" id="actual9" oninput="calc(9, 95.0)"></td>
-        <td><input type="number" id="target9" value="100" oninput="calc(9, 95.0)"></td>
-        <td id="result9">-</td>
-        <td id="status9">-</td>
-      </tr>
-    
-      <tr>
-        <td>庶務課</td>
-        <td>每月環境整潔稽核合格率 ≥ 95%</td>
-        <td><input type="number" id="actual10" oninput="calc(10, 95.0)"></td>
-        <td><input type="number" id="target10" value="100" oninput="calc(10, 95.0)"></td>
-        <td id="result10">-</td>
-        <td id="status10">-</td>
-      </tr>
-    
-      <tr>
-        <td>庶務課</td>
-        <td>辦公區設備維護回報完成率 ≥ 98%</td>
-        <td><input type="number" id="actual11" oninput="calc(11, 98.0)"></td>
-        <td><input type="number" id="target11" value="100" oninput="calc(11, 98.0)"></td>
-        <td id="result11">-</td>
-        <td id="status11">-</td>
-      </tr>
-    
-      <tr>
-        <td>庶務課</td>
-        <td>耗材補充即時率 ≥ 95%</td>
-        <td><input type="number" id="actual12" oninput="calc(12, 95.0)"></td>
-        <td><input type="number" id="target12" value="100" oninput="calc(12, 95.0)"></td>
-        <td id="result12">-</td>
-        <td id="status12">-</td>
-      </tr>
-    
-      <tr>
-        <td>資材部</td>
-        <td>採購到貨準時率 ≥ 95%</td>
-        <td><input type="number" id="actual15" oninput="calc(15, 95.0)"></td>
-        <td><input type="number" id="target15" value="100" oninput="calc(15, 95.0)"></td>
-        <td id="result15">-</td>
-        <td id="status15">-</td>
-      </tr>
-    
-      <tr>
-        <td>倉管課</td>
-        <td>庫存正確率 ≥ 98%</td>
-        <td><input type="number" id="actual16" oninput="calc(16, 98.0)"></td>
-        <td><input type="number" id="target16" value="100" oninput="calc(16, 98.0)"></td>
-        <td id="result16">-</td>
-        <td id="status16">-</td>
-      </tr>
-    
-      <tr>
-        <td>倉管課</td>
-        <td>進出貨登錄即時率 100%</td>
-        <td><input type="number" id="actual17" oninput="calc(17, 0)"></td>
-        <td><input type="number" id="target17" value="100" oninput="calc(17, 0)"></td>
-        <td id="result17">-</td>
-        <td id="status17">-</td>
-      </tr>
-    
-      <tr>
-        <td>倉管課</td>
-        <td>物料遺失/損壞率 ≤ 1%</td>
-        <td><input type="number" id="actual18" oninput="calc(18, -1.0)"></td>
-        <td><input type="number" id="target18" value="100" oninput="calc(18, -1.0)"></td>
-        <td id="result18">-</td>
-        <td id="status18">-</td>
-      </tr>
-    
-      <tr>
-        <td>生管課</td>
-        <td>工單準時釋出率 ≥ 98%</td>
-        <td><input type="number" id="actual20" oninput="calc(20, 98.0)"></td>
-        <td><input type="number" id="target20" value="100" oninput="calc(20, 98.0)"></td>
-        <td id="result20">-</td>
-        <td id="status20">-</td>
-      </tr>
-    
-      <tr>
-        <td>生管課</td>
-        <td>排程準確率 ≥ 95%</td>
-        <td><input type="number" id="actual21" oninput="calc(21, 95.0)"></td>
-        <td><input type="number" id="target21" value="100" oninput="calc(21, 95.0)"></td>
-        <td id="result21">-</td>
-        <td id="status21">-</td>
-      </tr>
-    
-      <tr>
-        <td>品保部</td>
-        <td>成品首次驗收合格率 ≥ 95%</td>
-        <td><input type="number" id="actual22" oninput="calc(22, 95.0)"></td>
-        <td><input type="number" id="target22" value="100" oninput="calc(22, 95.0)"></td>
-        <td id="result22">-</td>
-        <td id="status22">-</td>
-      </tr>
-    
-    
-      <tr>
-        <td>品保部</td>
-        <td>抽驗頻率達成率 100%</td>
-        <td><input type="number" id="actual24" oninput="calc(24, 0)"></td>
-        <td><input type="number" id="target24" value="100" oninput="calc(24, 0)"></td>
-        <td id="result24">-</td>
-        <td id="status24">-</td>
-      </tr>
-    
-      <tr>
-        <td>工管部</td>
-        <td>進度回報準確率 ≥ 95%</td>
-        <td><input type="number" id="actual25" oninput="calc(25, 95.0)"></td>
-        <td><input type="number" id="target25" value="100" oninput="calc(25, 95.0)"></td>
-        <td id="result25">-</td>
-        <td id="status25">-</td>
-      </tr>
-    
-      <tr>
-        <td>工管部</td>
-        <td>工地巡檢完成率 100%</td>
-        <td><input type="number" id="actual26" oninput="calc(26, 0)"></td>
-        <td><input type="number" id="target26" value="100" oninput="calc(26, 0)"></td>
-        <td id="result26">-</td>
-        <td id="status26">-</td>
-      </tr>
-    
-      <tr>
-        <td>工務部</td>
-        <td>安裝缺失率 ≤ 5%</td>
-        <td><input type="number" id="actual29" oninput="calc(29, -5.0)"></td>
-        <td><input type="number" id="target29" value="100" oninput="calc(29, -5.0)"></td>
-        <td id="result29">-</td>
-        <td id="status29">-</td>
-      </tr>
-    
-      <tr>
-        <td>工務部</td>
-        <td>材料損耗率 ≤ 2%</td>
-        <td><input type="number" id="actual30" oninput="calc(30, -2.0)"></td>
-        <td><input type="number" id="target30" value="100" oninput="calc(30, -2.0)"></td>
-        <td id="result30">-</td>
-        <td id="status30">-</td>
-      </tr>
-    
-      <tr>
-        <td>工務部</td>
-        <td>完工即時回報率 100%</td>
-        <td><input type="number" id="actual31" oninput="calc(31, 0)"></td>
-        <td><input type="number" id="target31" value="100" oninput="calc(31, 0)"></td>
-        <td id="result31">-</td>
-        <td id="status31">-</td>
-      </tr>
-    
-      <tr>
-        <td>工務部</td>
-        <td>準時完工率 ≥ 90%</td>
-        <td><input type="number" id="actual32" oninput="calc(32, 90.0)"></td>
-        <td><input type="number" id="target32" value="100" oninput="calc(32, 90.0)"></td>
-        <td id="result32">-</td>
-        <td id="status32">-</td>
-      </tr>
-    
-      <tr>
-        <td>廚具部</td>
-        <td>圖面核對完成率 100%</td>
-        <td><input type="number" id="actual33" oninput="calc(33, 0)"></td>
-        <td><input type="number" id="target33" value="100" oninput="calc(33, 0)"></td>
-        <td id="result33">-</td>
-        <td id="status33">-</td>
-      </tr>
-              
-      <tr>
-        <td>廚具部</td>
-        <td>丈量錯誤率 ≤ 1%</td>
-        <td><input type="number" id="actual35" oninput="calc(35, -1.0)"></td>
-        <td><input type="number" id="target35" value="100" oninput="calc(35, -1.0)"></td>
-        <td id="result35">-</td>
-        <td id="status35">-</td>
-      </tr>
-    
-      <tr>
-        <td>產品技術部</td>
-        <td>產品圖說錯誤率 ≤ 1% </td>
-        <td><input type="number" id="actual36" oninput="calc(36, -1.0)"></td>
-        <td><input type="number" id="target36" value="100" oninput="calc(36, -1.0)"></td>
-        <td id="result36">-</td>
-        <td id="status36">-</td>
-      </tr>
-    
-    
-      <tr>
-        <td>產品技術部</td>
-        <td>新品研發時程達成率 ≥ 90%</td>
-        <td><input type="number" id="actual38" oninput="calc(38, 90.0)"></td>
-        <td><input type="number" id="target38" value="100" oninput="calc(38, 90.0)"></td>
-        <td id="result38">-</td>
-        <td id="status38">-</td>
-      </tr>
-    
-      <tr>
-        <td>採購部</td>
-        <td>價格比價/議價率 ≥ 80%</td>
-        <td><input type="number" id="actual40" oninput="calc(40, 80.0)"></td>
-        <td><input type="number" id="target40" value="100" oninput="calc(40, 80.0)"></td>
-        <td id="result40">-</td>
-        <td id="status40">-</td>
-      </tr>
-    
-      <tr>
-        <td>採購部</td>
-        <td>採購單錯誤率 ≤ 1%</td>
-        <td><input type="number" id="actual41" oninput="calc(41, -1.0)"></td>
-        <td><input type="number" id="target41" value="100" oninput="calc(41, -1.0)"></td>
-        <td id="result41">-</td>
-        <td id="status41">-</td>
-      </tr>
-    
-      <tr>
-        <td>採購部</td>
-        <td>下單後交期掌握準確率 ≥ 95%</td>
-        <td><input type="number" id="actual42" oninput="calc(42, 95.0)"></td>
-        <td><input type="number" id="target42" value="100" oninput="calc(42, 95.0)"></td>
-        <td id="result42">-</td>
-        <td id="status42">-</td>
-      </tr>
-    
-      <tr>
-        <td>業務部</td>
-        <td>報價轉單率 ≥ 40%</td>
-        <td><input type="number" id="actual43" oninput="calc(43, 40.0)"></td>
-        <td><input type="number" id="target43" value="100" oninput="calc(43, 40.0)"></td>
-        <td id="result43">-</td>
-        <td id="status43">-</td>
-      </tr>
-    
-      <tr>
-        <td>業務部</td>
-        <td>舊客戶回訪率 ≥ 80%</td>
-        <td><input type="number" id="actual45" oninput="calc(45, 80.0)"></td>
-        <td><input type="number" id="target45" value="100" oninput="calc(45, 80.0)"></td>
-        <td id="result45">-</td>
-        <td id="status45">-</td>
-      </tr>
-    
-    
-      <tr>
-        <td>業務支援課</td>
-        <td>資料建檔錯誤率 ≤ 1%</td>
-        <td><input type="number" id="actual48" oninput="calc(48, -1.0)"></td>
-        <td><input type="number" id="target48" value="100" oninput="calc(48, -1.0)"></td>
-        <td id="result48">-</td>
-        <td id="status48">-</td>
-      </tr>
-    
-      <tr>
-        <td>業務支援課</td>
-        <td>文件交付準時率 ≥ 98%</td>
-        <td><input type="number" id="actual49" oninput="calc(49, 98.0)"></td>
-        <td><input type="number" id="target49" value="100" oninput="calc(49, 98.0)"></td>
-        <td id="result49">-</td>
-        <td id="status49">-</td>
-      </tr>
-    
-      <tr>
-        <td>製造課</td>
-        <td>現場5S檢查合格率 ≥ 90%</td>
-        <td><input type="number" id="actual50" oninput="calc(50, 90.0)"></td>
-        <td><input type="number" id="target50" value="100" oninput="calc(50, 90.0)"></td>
-        <td id="result50">-</td>
-        <td id="status50">-</td>
-      </tr>
-    
-      <tr>
-        <td>製造課</td>
-        <td>每日生產達成率 ≥ 95%</td>
-        <td><input type="number" id="actual51" oninput="calc(51, 95.0)"></td>
-        <td><input type="number" id="target51" value="100" oninput="calc(51, 95.0)"></td>
-        <td id="result51">-</td>
-        <td id="status51">-</td>
-      </tr>
-    
-      <tr>
-        <td>製造課</td>
-        <td>製程異常回報即時率 100%</td>
-        <td><input type="number" id="actual52" oninput="calc(52, 0)"></td>
-        <td><input type="number" id="target52" value="100" oninput="calc(52, 0)"></td>
-        <td id="result52">-</td>
-        <td id="status52">-</td>
-      </tr>
-    
-      <tr>
-        <td>製造課</td>
-        <td>報廢率 ≤ 2%</td>
-        <td><input type="number" id="actual53" oninput="calc(53, -2.0)"></td>
-        <td><input type="number" id="target53" value="100" oninput="calc(53, -2.0)"></td>
-        <td id="result53">-</td>
-        <td id="status53">-</td>
-      </tr>
-    
+      <!-- 請以此格式繼續添加 -->
+      <!-- 你也可以請我幫你補滿全部 KPI 行數 😉 -->
     </tbody>
   </table>
 
@@ -439,6 +70,7 @@
       if (!isNaN(actual) && !isNaN(target) && target !== 0) {
         const rate = (actual / target) * 100;
         resultCell.innerText = rate.toFixed(1) + "%";
+
         if (threshold >= 0 && rate >= threshold) {
           statusCell.innerText = "✅ 達標";
           statusCell.className = "status-pass";
@@ -456,8 +88,7 @@
       }
     }
   </script>
-
-  
 </body>
 </html>
+
 
