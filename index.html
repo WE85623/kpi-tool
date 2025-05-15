@@ -2,492 +2,484 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title> 台灣康勵 KPI 計算 </title>
-  <style>
-    body { font-family: "Helvetica Neue", sans-serif; background-color: #f9f9f9; padding: 2rem; }
-    h1 { text-align: center; color: #333; }
-    table { width: 100%; border-collapse: collapse; background: white; margin-top: 2rem; }
-    th, td { border: 1px solid #ccc; padding: 0.75rem; text-align: center; }
-    th { background: #eaeaea; }
-    input { width: 80px; padding: 0.4rem; text-align: right; }
-    .status-pass { color: green; font-weight: bold; }
-    .status-fail { color: red; font-weight: bold; }
-
-    @media (max-width: 768px) {
-      table, thead, tbody, th, td, tr { display: block; }
-      thead tr { display: none; }
-      td { position: relative; padding-left: 50%; border: 1px solid #ccc; margin-bottom: 1rem; }
-      td::before {
-        position: absolute; top: 0.5rem; left: 0.5rem; width: 45%;
-        padding-right: 0.5rem; white-space: nowrap; font-weight: bold; color: #555;
-      }
-      td:nth-of-type(1)::before { content: "部門"; }
-      td:nth-of-type(2)::before { content: "KPI 指標"; }
-      td:nth-of-type(3)::before { content: "實際數"; }
-      td:nth-of-type(4)::before { content: "標準數"; }
-      td:nth-of-type(5)::before { content: "達成率"; }
-      td:nth-of-type(6)::before { content: "狀態"; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title> 台灣康勵 KPI 試算器 </title>
+    <style>
+        body {
+            font-family: "Noto Sans TC", sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #e0f7fa;
+        }
+        input {
+            width: 80px;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-  <h1> KANLEE KPI 計算</h1>
-  <table>
+
+<h2>台灣康勵 KPI 試算器 </h2>
+<p>請輸入各指標的分子與分母進行試算，系統將自動計算達成率 (%)</p>
+
+<table>
     <thead>
-      <tr>
-        <th>部門</th>
-        <th>KPI 指標</th>
-        <th>實際數</th>
-        <th>標準數</th>
-        <th>達成率</th>
-        <th>狀態</th>
-      </tr>
+        <tr>
+            <th>部門</th>
+            <th>KPI 指標</th>
+            <th>計算公式</th>
+            <th>實際數量(金額)</th>
+            <th>預計目標(金額)</th>
+            <th>達成率 (%)</th>
+        </tr>
     </thead>
     <tbody>
-
-      <tr>
+        
+    <tr>
         <td>會計組</td>
         <td>逾期帳款催收完成率</td>
-        <td><input type="number" id="actual1" oninput="calc(1, 90)"></td>
-        <td><input type="number" id="target1" value="100" oninput="calc(1, 90)"></td>
-        <td id="result1">-</td>
-        <td id="status1">-</td>
-      </tr>
+        <td>已催收金額 ÷ 逾期帳款總額 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>會計組</td>
         <td>暫估AR應收請款率</td>
-        <td><input type="number" id="actual2" oninput="calc(2, 90)"></td>
-        <td><input type="number" id="target2" value="100" oninput="calc(2, 90)"></td>
-        <td id="result2">-</td>
-        <td id="status2">-</td>
-      </tr>
+        <td>已請款金額 ÷ 應請款金額</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>會計組</td>
         <td>報表出具準時率</td>
-        <td><input type="number" id="actual3" oninput="calc(3, 90)"></td>
-        <td><input type="number" id="target3" value="100" oninput="calc(3, 90)"></td>
-        <td id="result3">-</td>
-        <td id="status3">-</td>
-      </tr>
+        <td>準時出具報表數 ÷ 應出具報表總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>財務組</td>
         <td>現金流預估準確率</td>
-        <td><input type="number" id="actual4" oninput="calc(4, 90)"></td>
-        <td><input type="number" id="target4" value="100" oninput="calc(4, 90)"></td>
-        <td id="result4">-</td>
-        <td id="status4">-</td>
-      </tr>
+        <td>實際現金流 ÷ 預估現金流 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>財務組</td>
         <td>零用金費用帳完成率</td>
-        <td><input type="number" id="actual5" oninput="calc(5, 90)"></td>
-        <td><input type="number" id="target5" value="100" oninput="calc(5, 90)"></td>
-        <td id="result5">-</td>
-        <td id="status5">-</td>
-      </tr>
+        <td>已記錄費用帳 ÷ 應記錄費用帳</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>財務組</td>
         <td>費用帳付款核銷完成率</td>
-        <td><input type="number" id="actual6" oninput="calc(6, 90)"></td>
-        <td><input type="number" id="target6" value="100" oninput="calc(6, 90)"></td>
-        <td id="result6">-</td>
-        <td id="status6">-</td>
-      </tr>
+        <td>已核銷筆數 ÷ 應核銷筆數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>人資課</td>
         <td>人員招募率</td>
-        <td><input type="number" id="actual7" oninput="calc(7, 90)"></td>
-        <td><input type="number" id="target7" value="100" oninput="calc(7, 90)"></td>
-        <td id="result7">-</td>
-        <td id="status7">-</td>
-      </tr>
+        <td>實際到職人數 ÷ 招募需求人數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>人資課</td>
         <td>人員流動率</td>
-        <td><input type="number" id="actual8" oninput="calc(8, 90)"></td>
-        <td><input type="number" id="target8" value="100" oninput="calc(8, 90)"></td>
-        <td id="result8">-</td>
-        <td id="status8">-</td>
-      </tr>
+        <td>離職人數 ÷ 員工總人數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>人資課</td>
         <td>教育訓練滿意度</td>
-        <td><input type="number" id="actual9" oninput="calc(9, 90)"></td>
-        <td><input type="number" id="target9" value="100" oninput="calc(9, 90)"></td>
-        <td id="result9">-</td>
-        <td id="status9">-</td>
-      </tr>
+        <td>滿意問卷得分 ÷ 滿分</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>庶務課</td>
         <td>環境稽核合格率</td>
-        <td><input type="number" id="actual10" oninput="calc(10, 90)"></td>
-        <td><input type="number" id="target10" value="100" oninput="calc(10, 90)"></td>
-        <td id="result10">-</td>
-        <td id="status10">-</td>
-      </tr>
+        <td>合格次數 ÷ 稽核總次數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>庶務課</td>
         <td>設備維護回報完成率</td>
-        <td><input type="number" id="actual11" oninput="calc(11, 90)"></td>
-        <td><input type="number" id="target11" value="100" oninput="calc(11, 90)"></td>
-        <td id="result11">-</td>
-        <td id="status11">-</td>
-      </tr>
+        <td>已回報項目 ÷ 應回報項目</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>庶務課</td>
         <td>耗材補充即時率</td>
-        <td><input type="number" id="actual12" oninput="calc(12, 90)"></td>
-        <td><input type="number" id="target12" value="100" oninput="calc(12, 90)"></td>
-        <td id="result12">-</td>
-        <td id="status12">-</td>
-      </tr>
+        <td>即時補充次數 ÷ 總補充次數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>倉管課</td>
         <td>庫存正確率</td>
-        <td><input type="number" id="actual13" oninput="calc(13, 90)"></td>
-        <td><input type="number" id="target13" value="100" oninput="calc(13, 90)"></td>
-        <td id="result13">-</td>
-        <td id="status13">-</td>
-      </tr>
+        <td>盤點正確項目 ÷ 盤點項目總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>倉管課</td>
         <td>進出貨登錄即時率</td>
-        <td><input type="number" id="actual14" oninput="calc(14, 90)"></td>
-        <td><input type="number" id="target14" value="100" oninput="calc(14, 90)"></td>
-        <td id="result14">-</td>
-        <td id="status14">-</td>
-      </tr>
+        <td>即時登錄筆數 ÷ 總進出貨筆數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>倉管課</td>
         <td>出貨異常回報率</td>
-        <td><input type="number" id="actual15" oninput="calc(15, 90)"></td>
-        <td><input type="number" id="target15" value="100" oninput="calc(15, 90)"></td>
-        <td id="result15">-</td>
-        <td id="status15">-</td>
-      </tr>
+        <td>已回報異常件數 ÷ 出貨異常總件數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>生管課</td>
         <td>排程完成率</td>
-        <td><input type="number" id="actual16" oninput="calc(16, 90)"></td>
-        <td><input type="number" id="target16" value="100" oninput="calc(16, 90)"></td>
-        <td id="result16">-</td>
-        <td id="status16">-</td>
-      </tr>
+        <td>如期完成數 ÷ 總排程數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>生管課</td>
         <td>排程落差率</td>
-        <td><input type="number" id="actual17" oninput="calc(17, 90)"></td>
-        <td><input type="number" id="target17" value="100" oninput="calc(17, 90)"></td>
-        <td id="result17">-</td>
-        <td id="status17">-</td>
-      </tr>
+        <td>有落差數 ÷ 總排程數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>生管課</td>
         <td>排程異常回報率</td>
-        <td><input type="number" id="actual18" oninput="calc(18, 90)"></td>
-        <td><input type="number" id="target18" value="100" oninput="calc(18, 90)"></td>
-        <td id="result18">-</td>
-        <td id="status18">-</td>
-      </tr>
+        <td>已回報異常數 ÷ 排程異常總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>品保部</td>
         <td>成品首次驗收合格率</td>
-        <td><input type="number" id="actual19" oninput="calc(19, 90)"></td>
-        <td><input type="number" id="target19" value="100" oninput="calc(19, 90)"></td>
-        <td id="result19">-</td>
-        <td id="status19">-</td>
-      </tr>
+        <td>首次合格品數 ÷ 驗收品總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>品保部</td>
         <td>抽驗頻率達成率</td>
-        <td><input type="number" id="actual20" oninput="calc(20, 90)"></td>
-        <td><input type="number" id="target20" value="100" oninput="calc(20, 90)"></td>
-        <td id="result20">-</td>
-        <td id="status20">-</td>
-      </tr>
+        <td>實際抽驗次數 ÷ 計畫抽驗次數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>品保部</td>
         <td>產品異常回報率</td>
-        <td><input type="number" id="actual21" oninput="calc(21, 90)"></td>
-        <td><input type="number" id="target21" value="100" oninput="calc(21, 90)"></td>
-        <td id="result21">-</td>
-        <td id="status21">-</td>
-      </tr>
+        <td>回報異常數 ÷ 應回報異常總數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工管部</td>
         <td>案場成長率</td>
-        <td><input type="number" id="actual22" oninput="calc(22, 90)"></td>
-        <td><input type="number" id="target22" value="100" oninput="calc(22, 90)"></td>
-        <td id="result22">-</td>
-        <td id="status22">-</td>
-      </tr>
+        <td>本期案場數 ÷ 上期案場數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工管部</td>
         <td>工地巡檢完成率</td>
-        <td><input type="number" id="actual23" oninput="calc(23, 90)"></td>
-        <td><input type="number" id="target23" value="100" oninput="calc(23, 90)"></td>
-        <td id="result23">-</td>
-        <td id="status23">-</td>
-      </tr>
+        <td>實際巡檢次數 ÷ 預計巡檢次數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工管部</td>
         <td>案場異常回報率</td>
-        <td><input type="number" id="actual24" oninput="calc(24, 90)"></td>
-        <td><input type="number" id="target24" value="100" oninput="calc(24, 90)"></td>
-        <td id="result24">-</td>
-        <td id="status24">-</td>
-      </tr>
+        <td>已回報案場異常 ÷ 進行案場數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工務部</td>
         <td>準時送達率</td>
-        <td><input type="number" id="actual25" oninput="calc(25, 90)"></td>
-        <td><input type="number" id="target25" value="100" oninput="calc(25, 90)"></td>
-        <td id="result25">-</td>
-        <td id="status25">-</td>
-      </tr>
+        <td>準時送達筆數 ÷ 總出貨筆數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工務部</td>
         <td>客戶簽收完成率</td>
-        <td><input type="number" id="actual26" oninput="calc(26, 90)"></td>
-        <td><input type="number" id="target26" value="100" oninput="calc(26, 90)"></td>
-        <td id="result26">-</td>
-        <td id="status26">-</td>
-      </tr>
+        <td>已簽收件數 ÷ 應簽收件數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>工務部</td>
         <td>客戶端異常回報率</td>
-        <td><input type="number" id="actual27" oninput="calc(27, 90)"></td>
-        <td><input type="number" id="target27" value="100" oninput="calc(27, 90)"></td>
-        <td id="result27">-</td>
-        <td id="status27">-</td>
-      </tr>
+        <td>已回報客戶端異常 ÷ 客戶端異常總數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>廚具部</td>
         <td>廚具/浴櫃 案場成長率</td>
-        <td><input type="number" id="actual28" oninput="calc(28, 90)"></td>
-        <td><input type="number" id="target28" value="100" oninput="calc(28, 90)"></td>
-        <td id="result28">-</td>
-        <td id="status28">-</td>
-      </tr>
+        <td>本期案場數 ÷ 上期案場數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>廚具部</td>
         <td>廚具/浴櫃 案場完工率</td>
-        <td><input type="number" id="actual29" oninput="calc(29, 90)"></td>
-        <td><input type="number" id="target29" value="100" oninput="calc(29, 90)"></td>
-        <td id="result29">-</td>
-        <td id="status29">-</td>
-      </tr>
+        <td>已完工案場數 ÷ 總案場數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>廚具部</td>
         <td>廚具/浴櫃 案場異常回報率</td>
-        <td><input type="number" id="actual30" oninput="calc(30, 90)"></td>
-        <td><input type="number" id="target30" value="100" oninput="calc(30, 90)"></td>
-        <td id="result30">-</td>
-        <td id="status30">-</td>
-      </tr>
+        <td>已回報異常案場數 ÷ 發生異常案場總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>廚具部</td>
         <td>圖面繪製完成率</td>
-        <td><input type="number" id="actual31" oninput="calc(31, 90)"></td>
-        <td><input type="number" id="target31" value="100" oninput="calc(31, 90)"></td>
-        <td id="result31">-</td>
-        <td id="status31">-</td>
-      </tr>
+        <td>已完成圖面數 ÷ 應繪製圖面數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>廚具部</td>
         <td>圖面異常回報率</td>
-        <td><input type="number" id="actual32" oninput="calc(32, 90)"></td>
-        <td><input type="number" id="target32" value="100" oninput="calc(32, 90)"></td>
-        <td id="result32">-</td>
-        <td id="status32">-</td>
-      </tr>
+        <td>已回報圖面異常數 ÷ 發生異常圖面總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>產品技術部</td>
         <td>地板/拉門 案場成長率</td>
-        <td><input type="number" id="actual33" oninput="calc(33, 90)"></td>
-        <td><input type="number" id="target33" value="100" oninput="calc(33, 90)"></td>
-        <td id="result33">-</td>
-        <td id="status33">-</td>
-      </tr>
+        <td>本期案場數 ÷ 上期案場數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>產品技術部</td>
         <td>地板/拉門 案場完工率</td>
-        <td><input type="number" id="actual34" oninput="calc(34, 90)"></td>
-        <td><input type="number" id="target34" value="100" oninput="calc(34, 90)"></td>
-        <td id="result34">-</td>
-        <td id="status34">-</td>
-      </tr>
+        <td>已完工案場數 ÷ 總案場數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>產品技術部</td>
         <td>案場異常回報率</td>
-        <td><input type="number" id="actual35" oninput="calc(35, 90)"></td>
-        <td><input type="number" id="target35" value="100" oninput="calc(35, 90)"></td>
-        <td id="result35">-</td>
-        <td id="status35">-</td>
-      </tr>
+        <td>已回報案場異常數 ÷ 發生異常案場總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>採購部</td>
         <td>價格比價/議價率</td>
-        <td><input type="number" id="actual36" oninput="calc(36, 90)"></td>
-        <td><input type="number" id="target36" value="100" oninput="calc(36, 90)"></td>
-        <td id="result36">-</td>
-        <td id="status36">-</td>
-      </tr>
+        <td>有議價紀錄項目 ÷ 採購項目總數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>採購部</td>
         <td>開發新品/新廠商</td>
-        <td><input type="number" id="actual37" oninput="calc(37, 90)"></td>
-        <td><input type="number" id="target37" value="100" oninput="calc(37, 90)"></td>
-        <td id="result37">-</td>
-        <td id="status37">-</td>
-      </tr>
+        <td>新增廠商/新品項目數 ÷ 目標項目數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>採購部</td>
         <td>下單異常率</td>
-        <td><input type="number" id="actual38" oninput="calc(38, 90)"></td>
-        <td><input type="number" id="target38" value="100" oninput="calc(38, 90)"></td>
-        <td id="result38">-</td>
-        <td id="status38">-</td>
-      </tr>
+        <td>異常訂單數 ÷ 總訂單數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>營業處</td>
         <td>合約預算達成率</td>
-        <td><input type="number" id="actual39" oninput="calc(39, 90)"></td>
-        <td><input type="number" id="target39" value="100" oninput="calc(39, 90)"></td>
-        <td id="result39">-</td>
-        <td id="status39">-</td>
-      </tr>
+        <td>實際收入 ÷ 合約預算</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>營業處</td>
         <td>合約訂單成長率</td>
-        <td><input type="number" id="actual40" oninput="calc(40, 90)"></td>
-        <td><input type="number" id="target40" value="100" oninput="calc(40, 90)"></td>
-        <td id="result40">-</td>
-        <td id="status40">-</td>
-      </tr>
+        <td>本期訂單數 ÷ 上期訂單數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>營業處</td>
         <td>訂單異常回報率</td>
-        <td><input type="number" id="actual41" oninput="calc(41, 90)"></td>
-        <td><input type="number" id="target41" value="100" oninput="calc(41, 90)"></td>
-        <td id="result41">-</td>
-        <td id="status41">-</td>
-      </tr>
+        <td>已回報異常數 ÷ 訂單異常總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>業務支援課</td>
         <td>合約完成率</td>
-        <td><input type="number" id="actual42" oninput="calc(42, 90)"></td>
-        <td><input type="number" id="target42" value="100" oninput="calc(42, 90)"></td>
-        <td id="result42">-</td>
-        <td id="status42">-</td>
-      </tr>
+        <td>已完成合約數 ÷ 應完成合約數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>業務支援課</td>
         <td>單據異常回報率</td>
-        <td><input type="number" id="actual43" oninput="calc(43, 90)"></td>
-        <td><input type="number" id="target43" value="100" oninput="calc(43, 90)"></td>
-        <td id="result43">-</td>
-        <td id="status43">-</td>
-      </tr>
+        <td>已回報異常數 ÷ 單據異常總數 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>製造課</td>
         <td>生產完成率</td>
-        <td><input type="number" id="actual44" oninput="calc(44, 90)"></td>
-        <td><input type="number" id="target44" value="100" oninput="calc(44, 90)"></td>
-        <td id="result44">-</td>
-        <td id="status44">-</td>
-      </tr>
+        <td>實際完成量 ÷ 預計生產量</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>製造課</td>
         <td>生產報廢率</td>
-        <td><input type="number" id="actual45" oninput="calc(45, 90)"></td>
-        <td><input type="number" id="target45" value="100" oninput="calc(45, 90)"></td>
-        <td id="result45">-</td>
-        <td id="status45">-</td>
-      </tr>
+        <td>報廢量 ÷ 總生產量 </td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
-      <tr>
+    <tr>
         <td>製造課</td>
         <td>生產異常回報率</td>
-        <td><input type="number" id="actual46" oninput="calc(46, 90)"></td>
-        <td><input type="number" id="target46" value="100" oninput="calc(46, 90)"></td>
-        <td id="result46">-</td>
-        <td id="status46">-</td>
-      </tr>
+        <td>已回報異常數 ÷ 發生異常總數</td>
+        <td><input type="number" placeholder="分子" class="numerator"></td>
+        <td><input type="number" placeholder="分母" class="denominator"></td>
+        <td><span class="result">-</span> %</td>
+    </tr>
     
     </tbody>
-  </table>
-  <script>
-    function calc(id, threshold) {
-      const actual = parseFloat(document.getElementById("actual" + id).value);
-      const target = parseFloat(document.getElementById("target" + id).value);
-      const resultCell = document.getElementById("result" + id);
-      const statusCell = document.getElementById("status" + id);
-      if (!isNaN(actual) && !isNaN(target) && target !== 0) {
-        const rate = (actual / target) * 100;
-        resultCell.innerText = rate.toFixed(1) + "%";
-        if (threshold >= 0 && rate >= threshold) {
-          statusCell.innerText = "✅ 達標";
-          statusCell.className = "status-pass";
-        } else if (threshold < 0 && rate <= Math.abs(threshold)) {
-          statusCell.innerText = "✅ 達標";
-          statusCell.className = "status-pass";
-        } else {
-          statusCell.innerText = "❌ 未達標";
-          statusCell.className = "status-fail";
-        }
-      } else {
-        resultCell.innerText = "-";
-        statusCell.innerText = "-";
-        statusCell.className = "";
-      }
-    }
-  </script>
+</table>
+
+<script>
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', () => {
+            const row = input.closest('tr');
+            const numerator = parseFloat(row.querySelector('.numerator').value) || 0;
+            const denominator = parseFloat(row.querySelector('.denominator').value) || 0;
+            const resultCell = row.querySelector('.result');
+            if (denominator > 0) {
+                const result = (numerator / denominator * 100).toFixed(2);
+                resultCell.textContent = result;
+            } else {
+                resultCell.textContent = "-";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
